@@ -15,4 +15,4 @@
 
 
 
---down
+game.Players.LocalPlayer:Kick("the script is down")
