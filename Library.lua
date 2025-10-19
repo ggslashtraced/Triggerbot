@@ -1,5 +1,3 @@
---not mine i js store it here creds to LinoriaLib!!!
-
 local InputService = game:GetService('UserInputService');
 local TextService = game:GetService('TextService');
 local CoreGui = game:GetService('CoreGui');
@@ -1154,12 +1152,7 @@ do
 
             local State = KeyPicker:GetState();
 
-            ContainerLabel.Text = string.format(
-                '[%s] %s %s',
-                tostring(KeyPicker.Value or "None"),
-                tostring(Info.Text or "Unnamed"),
-                KeyPicker.Mode and "(" .. KeyPicker.Mode .. ")" or ""
-            )
+            ContainerLabel.Text = string.format('[%s] %s (%s)', KeyPicker.Value, Info.Text, KeyPicker.Mode);
 
             ContainerLabel.Visible = true;
             ContainerLabel.TextColor3 = State and Library.AccentColor or Library.FontColor;
@@ -3610,16 +3603,14 @@ function Library:CreateWindow(...)
     end
 
     Library:GiveSignal(InputService.InputBegan:Connect(function(Input, Processed)
-    	if type(Library.ToggleKeybind) == 'table' and Library.ToggleKeybind.Type == 'KeyPicker' then
-    		if Input.UserInputType == Enum.UserInputType.Keyboard and Input.KeyCode.Name == Library.ToggleKeybind.Value then
-    			task.spawn(Library.Toggle)
-    		end
-    	elseif (Input.KeyCode == Enum.KeyCode.RightControl or Input.KeyCode == Enum.KeyCode.RightShift) and (not Processed) then
-    		task.spawn(Library.Toggle)
-    	end
+        if type(Library.ToggleKeybind) == 'table' and Library.ToggleKeybind.Type == 'KeyPicker' then
+            if Input.UserInputType == Enum.UserInputType.Keyboard and Input.KeyCode.Name == Library.ToggleKeybind.Value then
+                task.spawn(Library.Toggle)
+            end
+        elseif Input.KeyCode == Enum.KeyCode.RightControl or (Input.KeyCode == Enum.KeyCode.RightShift and (not Processed)) then
+            task.spawn(Library.Toggle)
+        end
     end))
-
-
 
     if Config.AutoShow then task.spawn(Library.Toggle) end
 
